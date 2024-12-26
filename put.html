@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update User</title>
+</head>
+<body>
+  <h1>Update User</h1>
+  <form id="userForm">
+    <label>New Name:</label>
+    <input type="text" id="name" placeholder="Enter new name" required>
+    <button type="submit">Update</button>
+  </form>
+  <p id="message"></p>
+
+  <script>
+  document.getElementById('userForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent form from refreshing the page
+    const name = document.getElementById('name').value;
+
+    // Send PUT request
+    const response = await fetch('/user', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      document.getElementById('message').innerText = `Success: ${result.message}, Updated Name: ${result.user.name}`;
+    } else {
+      document.getElementById('message').innerText = `Error: ${result.message}`;
+    }
+  });
+</script>
+</body>
+</html>
